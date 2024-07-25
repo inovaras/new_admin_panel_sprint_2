@@ -1,0 +1,4 @@
+FROM ubuntu:22.04
+RUN mkdir internal_volume
+RUN date >> internal_volume/date.txt
+CMD cat internal_volume/date.txt
