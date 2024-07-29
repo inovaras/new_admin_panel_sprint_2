@@ -18,9 +18,18 @@ services:
       - "80:80"
 
   theatre-db:
-#    Тут необходимо описать недостающие элементы
+    image: postgres:16
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: 123123
+      POSTGRES_DB: movies_database
     volumes:
+      - $HOME/postgresql/data:/var/lib/postgresql/data
       - ./database_dump.sql:/docker-entrypoint-initdb.d/init.sql
 
+    ports:
+      - "5432:5432"
 
+volumes:
+  theatre-db-data:
 
