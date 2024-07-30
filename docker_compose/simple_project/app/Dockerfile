@@ -24,7 +24,7 @@ COPY . .
 # Создание необходимых директорий
 RUN mkdir -p /var/www/static/ \
     && mkdir -p /var/www/media/ \
-    && mkdir -p /opt/app/staticfiles/ \
+    && mkdir -p /opt/app/static/ \
     && mkdir -p /opt/app/media/
 
 # Запуск collectstatic
