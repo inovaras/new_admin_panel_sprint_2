@@ -3,6 +3,7 @@ from django.db.models import Q
 from django.http import JsonResponse
 from django.views import View
 from django.views.generic.list import BaseListView
+from django.views.generic.detail import BaseDetailView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from ...models import FilmWork, Genre, Person
@@ -33,6 +34,14 @@ class BaseDetailView(View):
 
     def render_to_response(self, context, **response_kwargs):
         return JsonResponse(context)
+
+    def get_context_data(self, **kwargs):
+        if 'object' not in kwargs:
+            kwargs['object'] = self.get_object()
+        return kwargs
+
+    def get_object(self):
+        raise NotImplementedError("Ошибка, нужно определить get_object")
 
 
 class MoviesListApi(MoviesApiMixin, BaseListView):
@@ -66,6 +75,6 @@ class MoviesListApi(MoviesApiMixin, BaseListView):
 
 class MoviesDetailApi(MoviesApiMixin, BaseDetailView):
     def get_context_data(self, **kwargs):
-        movie_id = kwargs.get('pk')
-        movie = self.get_queryset().filter(id=movie_id).first()
+        context = super().get_context_data(**kwargs)
+        movie = kwargs.get('object')
         return movie if movie else {}

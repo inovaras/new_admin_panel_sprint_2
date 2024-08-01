@@ -26,7 +26,7 @@ SECRET_KEY = os.getenv('SECRET_KEY', 'secret_key')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv('DEBUG', False) == 'True'
 
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '[::1]']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '127.0.0.1').split(',')
 
 
 # Application definition
@@ -128,10 +128,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.0/howto/static-files/
 
 STATIC_URL = '/static/'
-STATIC_ROOT = '/var/www/static/'  # или '/opt/app/static/'
+STATIC_ROOT = '/var/www/static/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = '/var/www/media/'  # или '/opt/app/media/'
+MEDIA_ROOT = '/var/www/media/'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.0/ref/settings/#default-auto-field
