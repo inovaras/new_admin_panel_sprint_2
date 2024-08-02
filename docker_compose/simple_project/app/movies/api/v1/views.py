@@ -5,6 +5,7 @@ from django.views import View
 from django.views.generic.list import BaseListView
 from django.views.generic.detail import BaseDetailView
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import get_object_or_404
 
 from ...models import FilmWork, Genre, Person
 
@@ -74,7 +75,11 @@ class MoviesListApi(MoviesApiMixin, BaseListView):
 
 
 class MoviesDetailApi(MoviesApiMixin, BaseDetailView):
+    def get_object(self):
+        object_id = self.kwargs.get('pk')
+        return get_object_or_404(FilmWork, id=object_id)
+
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        movie = kwargs.get('object')
+        movie_id = kwargs.get('pk')
+        movie = self.get_queryset().filter(id=movie_id).first()
         return movie if movie else {}

@@ -21,8 +21,9 @@ COPY . .
 RUN mkdir -p /var/www/static/ \
     && mkdir -p /var/www/media/
 
-RUN chmod +x entrypoint.sh
+RUN python manage.py collectstatic --noinput
 
 EXPOSE 8000
 
-ENTRYPOINT ["./entrypoint.sh"]
+RUN chmod +x run_uwsgi.sh
+ENTRYPOINT ["./run_uwsgi.sh"]
